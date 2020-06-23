@@ -44,6 +44,42 @@ namespace UnityBuildPipelineTools.EditorExtensions
             LogBuildSummary(report.summary);
         }
 
+        [MenuItem("Build/Android Mono")]
+        public static void BuildAndroidMono()
+        {
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+
+            buildPlayerOptions.scenes = GetEnabledScenePaths();
+            buildPlayerOptions.locationPathName = "Builds/AndroidMono/" + Application.productName + ".apk";
+            buildPlayerOptions.target = BuildTarget.Android;
+            buildPlayerOptions.options = BuildOptions.None;
+
+            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
+            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android,
+                ApiCompatibilityLevel.NET_Standard_2_0);
+            
+            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            LogBuildSummary(report.summary);
+        }
+        
+        [MenuItem("Build/Android IL2CPP")]
+        public static void BuildAndroidIL2CPP()
+        {
+            BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+
+            buildPlayerOptions.scenes = GetEnabledScenePaths();
+            buildPlayerOptions.locationPathName = "Builds/AndroidIL2CPP/" + Application.productName + ".apk";
+            buildPlayerOptions.target = BuildTarget.Android;
+            buildPlayerOptions.options = BuildOptions.None;
+
+            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
+            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android,
+                ApiCompatibilityLevel.NET_Standard_2_0);
+
+            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            LogBuildSummary(report.summary);
+        }
+        
         #region Helper
 
         /// <summary>

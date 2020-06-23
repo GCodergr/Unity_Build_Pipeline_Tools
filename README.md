@@ -11,3 +11,5 @@ Please look at GameBuilderEditor.cs script to extend the build player pipeline.
 
 - Windows x64 Mono
 - Windows x64 IL2CPP
+- Android Mono
+- Android IL2CPP

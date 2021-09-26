@@ -14,7 +14,8 @@ namespace UnityBuildPipelineTools.EditorExtensions
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 
             buildPlayerOptions.scenes = GetEnabledScenePaths();
-            buildPlayerOptions.locationPathName = "Builds/Windows64Mono/" + Application.productName + ".exe";
+            string locationPathName = "Builds/Windows64Mono/" + Application.productName + ".exe";
+            buildPlayerOptions.locationPathName = locationPathName;
             buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
             buildPlayerOptions.options = BuildOptions.None;
 
@@ -23,6 +24,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
                 ApiCompatibilityLevel.NET_Standard_2_0);
 
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(report.summary, locationPathName);
             LogBuildSummary(report.summary);
         }
 
@@ -32,7 +34,8 @@ namespace UnityBuildPipelineTools.EditorExtensions
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 
             buildPlayerOptions.scenes = GetEnabledScenePaths();
-            buildPlayerOptions.locationPathName = "Builds/Windows64IL2CPP/" + Application.productName + ".exe";
+            string locationPathName = "Builds/Windows64IL2CPP/" + Application.productName + ".exe";
+            buildPlayerOptions.locationPathName = locationPathName;
             buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
             buildPlayerOptions.options = BuildOptions.None;
 
@@ -41,6 +44,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
                 ApiCompatibilityLevel.NET_Standard_2_0);
 
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(report.summary, locationPathName);
             LogBuildSummary(report.summary);
         }
 
@@ -50,7 +54,8 @@ namespace UnityBuildPipelineTools.EditorExtensions
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 
             buildPlayerOptions.scenes = GetEnabledScenePaths();
-            buildPlayerOptions.locationPathName = "Builds/AndroidMono/" + Application.productName + ".apk";
+            string locationPathName = "Builds/AndroidMono/" + Application.productName + ".apk";
+            buildPlayerOptions.locationPathName = locationPathName;
             buildPlayerOptions.target = BuildTarget.Android;
             buildPlayerOptions.options = BuildOptions.None;
 
@@ -59,6 +64,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
                 ApiCompatibilityLevel.NET_Standard_2_0);
             
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(report.summary, locationPathName);
             LogBuildSummary(report.summary);
         }
         
@@ -68,7 +74,8 @@ namespace UnityBuildPipelineTools.EditorExtensions
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
 
             buildPlayerOptions.scenes = GetEnabledScenePaths();
-            buildPlayerOptions.locationPathName = "Builds/AndroidIL2CPP/" + Application.productName + ".apk";
+            string locationPathName = "Builds/AndroidIL2CPP/" + Application.productName + ".apk";
+            buildPlayerOptions.locationPathName = locationPathName;
             buildPlayerOptions.target = BuildTarget.Android;
             buildPlayerOptions.options = BuildOptions.None;
 
@@ -77,6 +84,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
                 ApiCompatibilityLevel.NET_Standard_2_0);
 
             BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(report.summary, locationPathName);
             LogBuildSummary(report.summary);
         }
         
@@ -135,7 +143,20 @@ namespace UnityBuildPipelineTools.EditorExtensions
             var adjustedSize = Math.Round(value / Math.Pow(1024, mag), decimalPlaces);
             return String.Format("{0} {1}", adjustedSize, sizeSuffixes[mag]);
         }
-
+        
+        /// <summary>
+        /// Shows Explorer/Finder when a build completed successfully
+        /// </summary>
+        /// <param name="buildSummary"></param>
+        /// <param name="locationPathName"></param>
+        private static void ShowExplorerOnSuccess(BuildSummary buildSummary, string locationPathName)
+        {
+            if (buildSummary.result == BuildResult.Succeeded)
+            {
+                EditorUtility.RevealInFinder(locationPathName);
+            }
+        }
+        
         #endregion
     }
 }

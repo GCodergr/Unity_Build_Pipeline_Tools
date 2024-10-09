@@ -5,8 +5,13 @@
 **/[Oo]bj/
 **/[Bb]uilds
 **/[Ll]ibrary/
+**/UserSettings/
 **/sysinfo.txt
 **/*.stackdump
+
+# Logs
+**/AssetImportWorker*.log
+**/shadercompiler-*.log
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

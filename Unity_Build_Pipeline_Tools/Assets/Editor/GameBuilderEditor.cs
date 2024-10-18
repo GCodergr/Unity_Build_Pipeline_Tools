@@ -9,7 +9,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
 {
     public class GameBuilderEditor : Editor
     {
-        [MenuItem("Build/Windows 64 Mono")]
+        [MenuItem("Build/Windows 64 Mono", priority = 0)]
         public static void BuildWindows64Mono()
         {
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -28,7 +28,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
             LogBuildSummary(buildReport.summary);
         }
 
-        [MenuItem("Build/Windows 64 IL2CPP")]
+        [MenuItem("Build/Windows 64 IL2CPP", priority = 1)]
         public static void BuildWindows64()
         {
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -47,7 +47,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
             LogBuildSummary(buildReport.summary);
         }
 
-        [MenuItem("Build/Android Mono")]
+        [MenuItem("Build/Android Mono", priority = 2)]
         public static void BuildAndroidMono()
         {
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -66,7 +66,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
             LogBuildSummary(buildReport.summary);
         }
         
-        [MenuItem("Build/Android IL2CPP")]
+        [MenuItem("Build/Android IL2CPP", priority = 3)]
         public static void BuildAndroidIL2CPP()
         {
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();

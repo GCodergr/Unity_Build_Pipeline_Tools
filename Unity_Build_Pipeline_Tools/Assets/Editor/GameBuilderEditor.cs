@@ -1,8 +1,9 @@
 ﻿using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace UnityBuildPipelineTools.EditorExtensions
 {
@@ -19,13 +20,12 @@ namespace UnityBuildPipelineTools.EditorExtensions
             buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
             buildPlayerOptions.options = BuildOptions.None;
 
-            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Standalone, ScriptingImplementation.Mono2x);
-            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone,
-                ApiCompatibilityLevel.NET_Standard_2_0);
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
+            PlayerSettings.SetApiCompatibilityLevel(NamedBuildTarget.Standalone, ApiCompatibilityLevel.NET_Standard_2_0);
 
-            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            ShowExplorerOnSuccess(report.summary, locationPathName);
-            LogBuildSummary(report.summary);
+            var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(buildReport.summary, locationPathName);
+            LogBuildSummary(buildReport.summary);
         }
 
         [MenuItem("Build/Windows 64 IL2CPP")]
@@ -39,13 +39,12 @@ namespace UnityBuildPipelineTools.EditorExtensions
             buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
             buildPlayerOptions.options = BuildOptions.None;
 
-            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Standalone, ScriptingImplementation.IL2CPP);
-            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Standalone,
-                ApiCompatibilityLevel.NET_Standard_2_0);
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.IL2CPP);
+            PlayerSettings.SetApiCompatibilityLevel(NamedBuildTarget.Standalone, ApiCompatibilityLevel.NET_Standard_2_0);
 
-            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            ShowExplorerOnSuccess(report.summary, locationPathName);
-            LogBuildSummary(report.summary);
+            var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(buildReport.summary, locationPathName);
+            LogBuildSummary(buildReport.summary);
         }
 
         [MenuItem("Build/Android Mono")]
@@ -59,13 +58,12 @@ namespace UnityBuildPipelineTools.EditorExtensions
             buildPlayerOptions.target = BuildTarget.Android;
             buildPlayerOptions.options = BuildOptions.None;
 
-            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
-            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android,
-                ApiCompatibilityLevel.NET_Standard_2_0);
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.Mono2x);
+            PlayerSettings.SetApiCompatibilityLevel(NamedBuildTarget.Android, ApiCompatibilityLevel.NET_Standard_2_0);
             
-            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            ShowExplorerOnSuccess(report.summary, locationPathName);
-            LogBuildSummary(report.summary);
+            var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(buildReport.summary, locationPathName);
+            LogBuildSummary(buildReport.summary);
         }
         
         [MenuItem("Build/Android IL2CPP")]
@@ -79,16 +77,15 @@ namespace UnityBuildPipelineTools.EditorExtensions
             buildPlayerOptions.target = BuildTarget.Android;
             buildPlayerOptions.options = BuildOptions.None;
 
-            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
-            PlayerSettings.SetApiCompatibilityLevel(BuildTargetGroup.Android,
-                ApiCompatibilityLevel.NET_Standard_2_0);
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+            PlayerSettings.SetApiCompatibilityLevel(NamedBuildTarget.Android, ApiCompatibilityLevel.NET_Standard_2_0);
 
-            BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            ShowExplorerOnSuccess(report.summary, locationPathName);
-            LogBuildSummary(report.summary);
+            var buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            ShowExplorerOnSuccess(buildReport.summary, locationPathName);
+            LogBuildSummary(buildReport.summary);
         }
         
-        #region Helper
+        #region Utilities
 
         /// <summary>
         /// Returns the paths of the enabled scenes from Build Settings
@@ -132,7 +129,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
 
         private static readonly string[] sizeSuffixes = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
-        static string SizeSuffix(ulong value, int decimalPlaces = 0)
+        private static string SizeSuffix(ulong value, int decimalPlaces = 0)
         {
             if (value < 0)
             {
@@ -141,7 +138,7 @@ namespace UnityBuildPipelineTools.EditorExtensions
 
             var mag = (int) Math.Max(0, Math.Log(value, 1024));
             var adjustedSize = Math.Round(value / Math.Pow(1024, mag), decimalPlaces);
-            return String.Format("{0} {1}", adjustedSize, sizeSuffixes[mag]);
+            return $"{adjustedSize} {sizeSuffixes[mag]}";
         }
         
         /// <summary>
